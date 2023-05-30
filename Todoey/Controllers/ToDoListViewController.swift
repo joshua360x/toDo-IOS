@@ -25,20 +25,22 @@ class ToDoListViewController: UITableViewController {
         
         print(dataFilePath)
         
-        let newItem = Item()
-        newItem.title = "Eat Food"
-        itemArray.append(newItem)
-        
-        let newItem1 = Item()
-        newItem1.title = "Find keys"
-        itemArray.append(newItem1)
-        
-        let newItem2 = Item()
-        newItem2.title = "Clean books"
-        itemArray.append(newItem2)
+//        let newItem = Item()
+//        newItem.title = "Eat Food"
+//        itemArray.append(newItem)
+//        
+//        let newItem1 = Item()
+//        newItem1.title = "Find keys"
+//        itemArray.append(newItem1)
+//        
+//        let newItem2 = Item()
+//        newItem2.title = "Clean books"
+//        itemArray.append(newItem2)
         //        if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
         //            itemArray = items
         //        }
+        
+        loadItems()
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -155,6 +157,18 @@ class ToDoListViewController: UITableViewController {
         
         self.tableView.reloadData()
 
+    }
+    
+    func loadItems() {
+        if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+                itemArray = try decoder.decode([Item].self, from: data)
+
+            } catch {
+                print("Error decoding item array, \(error)")
+            }
+        }
     }
     
     
