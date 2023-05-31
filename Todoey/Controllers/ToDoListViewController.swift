@@ -27,7 +27,7 @@ class ToDoListViewController: UITableViewController {
         // Do any additional setup after loading the view.
         
         
-        print(dataFilePath)
+//        print(dataFilePath)
         
 //        let newItem = Item()
 //        newItem.title = "Eat Food"
@@ -43,7 +43,8 @@ class ToDoListViewController: UITableViewController {
         //        if let items = defaults.array(forKey: "ToDoListArray") as? [Item] {
         //            itemArray = items
         //        }
-        
+        //        let request : NSFetchRequest<Item> = Item.fetchRequest()
+
         loadItems()
     }
     
@@ -174,7 +175,7 @@ class ToDoListViewController: UITableViewController {
 
     }
     
-    func loadItems() {
+    func loadItems(with request: NSFetchRequest<Item> = Item.fetchRequest()) {
 //        if let data = try? Data(contentsOf: dataFilePath!) {
 //            let decoder = PropertyListDecoder()
 //            do {
@@ -185,7 +186,7 @@ class ToDoListViewController: UITableViewController {
 //            }
 //        }
         
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+//        let request : NSFetchRequest<Item> = Item.fetchRequest()
         do {
         itemArray = try context.fetch(request)
         } catch {
@@ -197,7 +198,33 @@ class ToDoListViewController: UITableViewController {
         
     }
     
+
+    
     
     
 }
+
+
+
+
+//MARK: - Search Bar Methods
+extension ToDoListViewController: UISearchBarDelegate {
+    
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+//        print(searchBar.text)
+        
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        loadItems(with: request)
+
+      }
+    
+    
+}
+
 
