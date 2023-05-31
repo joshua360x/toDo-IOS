@@ -78,7 +78,15 @@ class ToDoListViewController: UITableViewController {
         //        itemArray[indexPath.row].done
         
         
+        
+        
         // sets done property to opposite of true or false statement
+        
+        // delete
+//        context.delete(itemArray[indexPath.row])
+//        itemArray.remove(at: indexPath.row)
+        
+        // update
         itemArray[indexPath.row].done = !itemArray[indexPath.row].done
         
         //
